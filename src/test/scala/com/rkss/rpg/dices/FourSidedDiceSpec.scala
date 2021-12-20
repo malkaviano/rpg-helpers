@@ -9,7 +9,7 @@ class FourSidedDiceSpec
     with Matchers
     with MockFactory
     with BehavesLikeDice {
-  describe("Four Sided Dice roll") {
+  describe("Four sided dice") {
     val rollD4 = mockFunction[DiceRange, Int]
 
     val dice = FourSidedDice(rollD4)

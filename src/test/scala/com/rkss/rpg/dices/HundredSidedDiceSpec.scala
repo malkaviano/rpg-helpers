@@ -8,7 +8,7 @@ class HundredSidedDiceSpec extends AnyFunSpec
     with Matchers
     with MockFactory
     with BehavesLikeDice {
-  describe("HundredSided Dice") {
+  describe("Hundred sided dice") {
     val rollD100 = mockFunction[DiceRange, Int]
 
     val dice = HundredSidedDice(rollD100)

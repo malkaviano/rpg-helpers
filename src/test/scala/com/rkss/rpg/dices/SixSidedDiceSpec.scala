@@ -5,7 +5,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalamock.scalatest.MockFactory
 
 class SixSidedDiceSpec extends AnyFunSpec with Matchers with MockFactory with BehavesLikeDice {
-  describe("Six Sided roll") {
+  describe("Six sided dice") {
     val rollD6 = mockFunction[DiceRange, Int]
 
     val dice = SixSidedDice(rollD6)
