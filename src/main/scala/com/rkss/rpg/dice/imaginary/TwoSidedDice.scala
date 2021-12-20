@@ -1,6 +1,6 @@
-package com.rkss.rpg.dices.imaginary
+package com.rkss.rpg.dice.imaginary
 
-import com.rkss.rpg.dices.implementation._
+import com.rkss.rpg.dice.implementation._
 import com.rkss.rpg.traits._
 
 final case class TwoSidedDice(rng: DiceRange => DiceResult)

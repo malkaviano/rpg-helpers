@@ -1,7 +1,7 @@
-package com.rkss.rpg.dices
+package com.rkss.rpg.dice
 
-import com.rkss.rpg.dices.imaginary._
-import com.rkss.rpg.dices.implementation._
+import com.rkss.rpg.dice.imaginary._
+import com.rkss.rpg.dice.implementation._
 
 class DicesSpec extends BehavesLikeDice {
   describe("Four sided dice") {
