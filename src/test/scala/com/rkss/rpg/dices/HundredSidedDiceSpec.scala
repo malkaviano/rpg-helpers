@@ -9,13 +9,11 @@ class HundredSidedDiceSpec extends AnyFunSpec
     with MockFactory
     with BehavesLikeDice {
   describe("Hundred sided dice") {
-    val rollD100 = mockFunction[DiceRange, Int]
-
-    val dice = HundredSidedDice(rollD100)
+    val dice = new HundredSidedDice(rng)
 
     val name = "D100"
     val range = DiceRange(1, 100)
 
-    behavesLikeDice(dice, name, range, rollD100, 87)
+    behavesLikeDice(dice, name, range, 87)
   }
 }
