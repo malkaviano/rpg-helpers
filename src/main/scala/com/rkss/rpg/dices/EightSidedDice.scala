@@ -1,4 +1,4 @@
-package com.rkss.rpg.helpers.dices
+package com.rkss.rpg.dices
 
 import com.rkss.rpg.traits.Dice
 

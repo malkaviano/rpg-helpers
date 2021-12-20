@@ -1,3 +1,3 @@
-package com.rkss.rpg.helpers.dices
+package com.rkss.rpg.dices
 
 final case class DiceRange(val min: Int, val max: Int)
