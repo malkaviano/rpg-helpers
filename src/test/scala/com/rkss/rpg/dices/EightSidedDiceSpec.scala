@@ -1,14 +1,6 @@
 package com.rkss.rpg.dices
 
-import org.scalatest.funspec.AnyFunSpec
-import org.scalatest.matchers.should.Matchers
-import org.scalamock.scalatest.MockFactory
-
-class EightSidedDiceSpec
-    extends AnyFunSpec
-    with Matchers
-    with MockFactory
-    with BehavesLikeDice {
+class EightSidedDiceSpec extends BehavesLikeDice {
   describe("Eight sided dice") {
     val dice = new EightSidedDice(rng)
 
