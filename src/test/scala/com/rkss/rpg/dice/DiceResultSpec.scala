@@ -1,7 +1,9 @@
-package com.rkss.rpg.dices
+package com.rkss.rpg.dice
 
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
+
+import com.rkss.rpg.dice.implementation._
 
 class DiceResultSpec extends AnyFunSpec with Matchers {
   describe("Dice Result comparison") {

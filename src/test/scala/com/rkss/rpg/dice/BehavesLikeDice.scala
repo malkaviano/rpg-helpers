@@ -1,10 +1,11 @@
-package com.rkss.rpg.dices
+package com.rkss.rpg.dice
 
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalamock.scalatest.MockFactory
 
 import com.rkss.rpg.traits._
+import com.rkss.rpg.dice.implementation._
 
 trait BehavesLikeDice extends AnyFunSpec with Matchers with MockFactory {
   protected lazy val rng = mockFunction[DiceRange, DiceResult]

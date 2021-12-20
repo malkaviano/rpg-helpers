@@ -18,6 +18,22 @@ case object TenSidedDiceName extends DiceName {
   override def toString: String = "D10"
 }
 
+case object TwelveSidedDiceName extends DiceName {
+  override def toString: String = "D12"
+}
+
+case object TwentySidedDiceName extends DiceName {
+  override def toString: String = "D20"
+}
+
 case object HundredSidedDiceName extends DiceName {
   override def toString: String = "D100"
+}
+
+case object ThreeSidedDiceName extends DiceName {
+  override def toString: String = "D3"
+}
+
+case object TwoSidedDiceName extends DiceName {
+  override def toString: String = "D2"
 }
