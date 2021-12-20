@@ -3,6 +3,8 @@ package com.rkss.rpg.dices
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 
+import com.rkss.rpg.dices.implementation._
+
 class DiceResultSpec extends AnyFunSpec with Matchers {
   describe("Dice Result comparison") {
     val diceResult1 = SimpleDiceResult(10)

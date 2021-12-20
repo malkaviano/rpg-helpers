@@ -1,4 +1,4 @@
-package com.rkss.rpg.dices
+package com.rkss.rpg.dices.implementation
 
 import com.rkss.rpg.traits.DiceResult
 
