@@ -6,7 +6,7 @@ import com.rkss.rpg.traits._
 import com.rkss.rpg.dice.implementation._
 import com.rkss.rpg.dice.imaginary._
 
-object Helper {
+object DiceBag {
   implicit val fourSidedDice = FourSidedDice(rangeDice)
 
   implicit val sixSidedDice = SixSidedDice(rangeDice)

@@ -1,47 +1,47 @@
 package com.rkss.rpg.dice
 
 import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.collection.mutable.{Set => MutableSet}
-import com.rkss.rpg.traits.DiceResult
-import org.scalatest.matchers.should.Matchers
-import com.rkss.rpg.traits.Dice
 
-class HelperSpec extends AnyFunSpec with Matchers {
+import com.rkss.rpg.traits._
+
+class DiceBagSpec extends AnyFunSpec with Matchers {
   describe("fourSidedDice") {
-    test(Helper.fourSidedDice, 4, 40)
+    test(DiceBag.fourSidedDice, 4, 40)
   }
 
   describe("sixSidedDice") {
-    test(Helper.sixSidedDice, 6, 60)
+    test(DiceBag.sixSidedDice, 6, 60)
   }
 
   describe("eightSidedDice") {
-    test(Helper.eightSidedDice, 8, 80)
+    test(DiceBag.eightSidedDice, 8, 80)
   }
 
   describe("tenSidedDice") {
-    test(Helper.tenSidedDice, 10, 100)
+    test(DiceBag.tenSidedDice, 10, 100)
   }
 
   describe("twelveSidedDice") {
-    test(Helper.twelveSidedDice, 12, 120)
+    test(DiceBag.twelveSidedDice, 12, 120)
   }
 
   describe("twentySidedDice") {
-    test(Helper.twentySidedDice, 20, 200)
+    test(DiceBag.twentySidedDice, 20, 200)
   }
 
   describe("hundredSidedDice") {
-    test(Helper.hundredSidedDice, 100, 1000)
+    test(DiceBag.hundredSidedDice, 100, 1000)
   }
 
   describe("twoSidedDice") {
-    test(Helper.twoSidedDice, 2, 20)
+    test(DiceBag.twoSidedDice, 2, 20)
   }
 
   describe("threeSidedDice") {
-    test(Helper.threeSidedDice, 3, 30)
+    test(DiceBag.threeSidedDice, 3, 30)
   }
 
   private def test(obj: Dice, expected: Int, runs: Int) = {
