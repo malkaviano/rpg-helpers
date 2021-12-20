@@ -1,7 +1,11 @@
 package com.rkss.rpg.traits
 
-trait DiceResult {
+trait DiceResult  extends Ordered[DiceResult] {
   def value: Int
+
+  override def compare(that: DiceResult): Int = {
+    Integer.compare(this.value, that.value)
+  }
 }
 
 object DiceResult {
