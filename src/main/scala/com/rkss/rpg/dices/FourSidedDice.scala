@@ -1,9 +1,9 @@
 package com.rkss.rpg.dices
 
-import com.rkss.rpg.traits.Dice
+import com.rkss.rpg.traits._
 
 final case class FourSidedDice(private val rollD4: DiceRange => Int) extends Dice {
-  override def name: String = "D4"
+  override def name: DiceName = FourSidedDiceName
 
   override def roll: Int = rollD4(FourSidedDice.range)
 }

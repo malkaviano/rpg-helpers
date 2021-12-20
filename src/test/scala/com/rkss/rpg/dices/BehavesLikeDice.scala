@@ -16,7 +16,7 @@ trait BehavesLikeDice extends AnyFunSpec with Matchers with MockFactory {
       expected: Int
   ) = {
     it(s"should have name ${name}") {
-      dice.name shouldBe name
+      dice.name.toString shouldEqual name
     }
 
     it(s"should have roll generating a number between ${range}") {

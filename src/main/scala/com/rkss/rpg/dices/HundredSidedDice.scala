@@ -1,9 +1,9 @@
 package com.rkss.rpg.dices
 
-import com.rkss.rpg.traits.Dice
+import com.rkss.rpg.traits._
 
 final case class HundredSidedDice(rollD100: (DiceRange) => Int) extends Dice {
-  override val name: String = "D100"
+  override val name: DiceName = HundredSidedDiceName
 
   override def roll: Int = rollD100(HundredSidedDice.range)
 }
