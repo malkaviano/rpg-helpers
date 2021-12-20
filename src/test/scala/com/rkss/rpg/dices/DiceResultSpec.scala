@@ -4,32 +4,35 @@ import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 
 class DiceResultSpec extends AnyFunSpec with Matchers {
-  describe("Dice Result compare") {
+  describe("Dice Result comparison") {
     val diceResult1 = SimpleDiceResult(10)
     val diceResult2 = SimpleDiceResult(20)
+    val diceResult3 = SimpleDiceResult(20)
 
-    describe(s"when ${diceResult1} compare ${diceResult2}") {
-      it("should return -1") {
-        val result = diceResult1.compare(diceResult2)
-
-        result shouldBe -1
-      }
+    describe(s"when ${diceResult1} < ${diceResult2}") {
+      test(diceResult1 < diceResult2)
     }
 
-    describe(s"when ${diceResult2} compare ${diceResult1}") {
-      it("should return 1") {
-        val result = diceResult2.compare(diceResult1)
-
-        result shouldBe 1
-      }
+    describe(s"when ${diceResult2} > ${diceResult1}") {
+      test(diceResult2 > diceResult1)
     }
 
-    describe(s"when ${diceResult2} compare ${diceResult2}") {
-      it("should return 0") {
-        val result = diceResult2.compare(diceResult2)
+    describe(s"when ${diceResult2} <= ${diceResult3}") {
+      test(diceResult2 <= diceResult3)
+    }
 
-        result shouldBe 0
-      }
+    describe(s"when ${diceResult3} >= ${diceResult1}") {
+      test(diceResult3 >= diceResult1)
+    }
+
+    describe(s"when ${diceResult2} == ${diceResult3}") {
+      test(diceResult2 == diceResult3)
+    }
+  }
+
+  private def test(fn: => Boolean): Unit = {
+    it("should be true") {
+      fn shouldBe true
     }
   }
 }
