@@ -14,12 +14,8 @@ class HundredSidedDiceSpec extends AnyFunSpec
     val dice = HundredSidedDice(rollD100)
 
     val name = "D100"
-    val range = HundredSidedDice.range
+    val range = DiceRange(1, 100)
 
     behavesLikeDice(dice, name, range, rollD100, 87)
-
-    it(s"should have range (1, 100)") {
-      HundredSidedDice.range shouldBe (DiceRange(1, 100))
-    }
   }
 }

@@ -15,12 +15,8 @@ class EightSidedDiceSpec
     val dice = EightSidedDice(rollD8)
 
     val name = "D8"
-    val range = EightSidedDice.range
+    val range = DiceRange(1, 8)
 
     behavesLikeDice(dice, name, range, rollD8, 5)
-
-    it(s"should have range (1, 8)") {
-      EightSidedDice.range shouldBe (DiceRange(1, 8))
-    }
   }
 }
