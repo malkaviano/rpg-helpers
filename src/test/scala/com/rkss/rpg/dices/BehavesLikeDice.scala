@@ -4,10 +4,10 @@ import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalamock.scalatest.MockFactory
 
-import com.rkss.rpg.traits.Dice
+import com.rkss.rpg.traits._
 
 trait BehavesLikeDice extends AnyFunSpec with Matchers with MockFactory {
-  protected lazy val rng = mockFunction[DiceRange, Int]
+  protected lazy val rng = mockFunction[DiceRange, DiceResult]
 
   def behavesLikeDice(
       dice: Dice,
@@ -16,13 +16,19 @@ trait BehavesLikeDice extends AnyFunSpec with Matchers with MockFactory {
       expected: Int
   ) = {
     it(s"should have name ${name}") {
-      dice.name.toString shouldEqual name
+      val result: String = dice.name.toString
+
+      result shouldEqual name
     }
 
-    it(s"should have roll generating a number between ${range}") {
-      rng.expects(range).once().returning(expected)
+    it(s"should have roll result between ${range}") {
+      import com.rkss.rpg.traits.DiceResult.implicits._
 
-      dice.roll shouldBe expected
+      rng.expects(range).once().returning(SimpleDiceResult(expected))
+
+      val result: Int = dice.roll
+
+      result shouldBe expected
     }
   }
 }

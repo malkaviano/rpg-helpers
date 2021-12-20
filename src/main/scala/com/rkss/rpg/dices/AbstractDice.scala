@@ -1,12 +1,11 @@
 package com.rkss.rpg.dices
 
-import com.rkss.rpg.traits.Dice
-import com.rkss.rpg.traits.DiceName
+import com.rkss.rpg.traits._
 
 abstract class AbstractDice private[dices](
-    private val rng: DiceRange => Int,
+    private val rng: DiceRange => DiceResult,
     private val range: DiceRange,
     override val name: DiceName
 ) extends Dice {
-  override def roll: Int = rng(range)
+  override def roll: DiceResult = rng(range)
 }
