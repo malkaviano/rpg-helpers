@@ -3,7 +3,7 @@ package com.rkss.rpg.dice
 import com.rkss.rpg.dice.imaginary._
 import com.rkss.rpg.dice.implementation._
 
-class DicesSpec extends BehavesLikeDice {
+class DiceSpec extends BehavesLikeDice {
   describe("Four sided dice") {
     val dice = FourSidedDice(rng)
 
