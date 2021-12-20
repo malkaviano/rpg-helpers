@@ -15,12 +15,8 @@ class FourSidedDiceSpec
     val dice = FourSidedDice(rollD4)
 
     val name = "D4"
-    val range = FourSidedDice.range
+    val range = DiceRange(1, 4)
 
     behavesLikeDice(dice, name, range, rollD4, 2)
-
-    it(s"should have range (1, 4)") {
-      FourSidedDice.range shouldBe (DiceRange(1, 4))
-    }
   }
 }

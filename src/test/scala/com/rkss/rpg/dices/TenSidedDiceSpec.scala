@@ -14,12 +14,8 @@ class TenSidedDiceSpec extends AnyFunSpec
     val dice = TenSidedDice(rollD10)
 
     val name = "D10"
-    val range = TenSidedDice.range
+    val range = DiceRange(1, 10)
 
     behavesLikeDice(dice, name, range, rollD10, 9)
-
-    it(s"should have range (1, 10)") {
-      TenSidedDice.range shouldBe (DiceRange(1, 10))
-    }
   }
 }

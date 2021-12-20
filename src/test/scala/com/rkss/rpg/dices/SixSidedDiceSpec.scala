@@ -11,12 +11,8 @@ class SixSidedDiceSpec extends AnyFunSpec with Matchers with MockFactory with Be
     val dice = SixSidedDice(rollD6)
 
     val name = "D6"
-    val range = SixSidedDice.range
+    val range = DiceRange(1, 6)
 
     behavesLikeDice(dice, name, range, rollD6, 5)
-
-    it(s"should have range (1, 6)") {
-      SixSidedDice.range shouldBe (DiceRange(1, 6))
-    }
   }
 }
