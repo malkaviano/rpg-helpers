@@ -1,9 +1,10 @@
 import Dependencies._
 
 ThisBuild / scalaVersion     := "2.13.7"
-ThisBuild / version          := "0.1.0-SNAPSHOT"
+ThisBuild / version          := "1.0.1"
 ThisBuild / organization     := "com.rkss"
 ThisBuild / organizationName := "rkss"
+ThisBuild / versionScheme    := Some("early-semver")
 
 ThisBuild / scalacOptions ++= Seq(
   "-encoding",

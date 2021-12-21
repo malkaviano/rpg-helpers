@@ -3,7 +3,7 @@ package com.rkss.rpg.dice
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 
-import com.rkss.rpg.dice.implementation._
+import com.rkss.rpg.dice.implementation.SimpleDiceResult
 
 class DiceResultSpec extends AnyFunSpec with Matchers {
   describe("Dice Result comparison") {
