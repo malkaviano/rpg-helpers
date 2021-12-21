@@ -1,4 +1,4 @@
-package com.rkss.rpg.traits
+package com.rkss.rpg.helpers.traits
 
 trait DiceResult  extends Ordered[DiceResult] {
   def value: Int
