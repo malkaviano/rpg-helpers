@@ -1,11 +1,11 @@
-package com.rkss.rpg.dice
+package com.rkss.rpg.helpers.dice
 
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 
 import scala.collection.mutable.{Set => MutableSet}
 
-import com.rkss.rpg.traits._
+import com.rkss.rpg.helpers.traits._
 
 class BagSpec extends AnyFunSpec with Matchers {
   describe("fourSidedDice") {

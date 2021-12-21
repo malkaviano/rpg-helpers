@@ -1,6 +1,6 @@
-package com.rkss.rpg.dice.implementation
+package com.rkss.rpg.helpers.dice.implementation
 
-import com.rkss.rpg.traits.DiceRange
+import com.rkss.rpg.helpers.traits.DiceRange
 
 final case class SimpleDiceRange private[dice] (
     override val min: Int,

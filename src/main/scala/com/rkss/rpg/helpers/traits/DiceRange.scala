@@ -1,4 +1,4 @@
-package com.rkss.rpg.traits
+package com.rkss.rpg.helpers.traits
 
 trait DiceRange {
   def min: Int
