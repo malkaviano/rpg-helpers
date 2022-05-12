@@ -13,7 +13,7 @@ final class BasicIntFixtureSpec extends AnyFunSpec with Matchers {
   describe("BasicIntFixture behavior") {
     describe("initial value") {
       it("should be 10") {
-        val fixture = BasicIntFixture(name, 10)
+        val fixture = BasicIntFixture(name, BasicIntOptions(10))
 
         fixture.value shouldBe 10
       }
@@ -21,27 +21,109 @@ final class BasicIntFixtureSpec extends AnyFunSpec with Matchers {
 
     describe("minimum value") {
       it("should be 0") {
-        val fixture = BasicIntFixture(name, 10, 0)
+        val fixture = BasicIntFixture(name, BasicIntOptions(10, 0))
 
         fixture.minus(BasicIntValue(name, 100))
 
         fixture.value shouldBe 0
       }
+
+      describe("changing minimum value") {
+        it("should return 15") {
+          val fixture = BasicIntFixture(name, BasicIntOptions(10, 0))
+
+          fixture.minimum = 15
+
+          fixture.minimum shouldBe 15
+        }
+
+        describe("when maximum is 50") {
+          describe("and minimum is 30") {
+            describe("and minimum changes to 52") {
+              it("return minimum 30") {
+                val fixture = BasicIntFixture(name, BasicIntOptions(40, 30, 50))
+
+                fixture.minimum = 52
+
+                fixture.minimum shouldBe 30
+              }
+            }
+          }
+        }
+
+        describe("when options equalizeOnValueInferiorMinimum is true") {
+          describe("and value is 10") {
+            describe("and minimum changes to 20") {
+              it("return value 20") {
+                val fixture = BasicIntFixture(
+                  name,
+                  BasicIntOptions(10, equalizeOnValueInferiorMinimum = true)
+                )
+
+                fixture.minimum = 20
+
+                fixture.value shouldBe 20
+              }
+            }
+          }
+        }
+      }
     }
 
     describe("maximum value") {
       it("should be 0") {
-        val fixture = BasicIntFixture(name, 10, 0, 50)
+        val fixture = BasicIntFixture(name, BasicIntOptions(10, 0, 50))
 
         fixture.plus(BasicIntValue(name, 100))
 
         fixture.value shouldBe 50
       }
+
+      describe("changing maximum value") {
+        it("should return 200") {
+          val fixture = BasicIntFixture(name, BasicIntOptions(10, 0))
+
+          fixture.maximum = 200
+
+          fixture.maximum shouldBe 200
+        }
+
+        describe("when minimum is 30") {
+          describe("and maximum is 50") {
+            describe("and maximum changes to 29") {
+              it("return maximum 50") {
+                val fixture = BasicIntFixture(name, BasicIntOptions(40, 30, 50))
+
+                fixture.maximum = 29
+
+                fixture.maximum shouldBe 50
+              }
+            }
+          }
+        }
+
+        describe("when options equalizeOnValueSuperiorMaximum is true") {
+          describe("and value is 100") {
+            describe("and maximum changes to 50") {
+              it("return value 50") {
+                val fixture = BasicIntFixture(
+                  name,
+                  BasicIntOptions(100, equalizeOnValueSuperiorMaximum = true)
+                )
+
+                fixture.maximum = 50
+
+                fixture.value shouldBe 50
+              }
+            }
+          }
+        }
+      }
     }
 
     describe("math operations") {
       it("should execute basic math") {
-        val fixture = BasicIntFixture(name, 0)
+        val fixture = BasicIntFixture(name)
 
         fixture.plus(BasicIntValue(name, 10))
 
@@ -63,7 +145,8 @@ final class BasicIntFixtureSpec extends AnyFunSpec with Matchers {
 
     describe("rounding up on division") {
       it("should be 13") {
-        val fixture = BasicIntFixture(name, 100, roundUp = true)
+        val fixture =
+          BasicIntFixture(name, BasicIntOptions(100, roundUp = true))
 
         fixture.div(BasicIntValue(name, 8))
 
@@ -79,7 +162,7 @@ final class BasicIntFixtureSpec extends AnyFunSpec with Matchers {
         BasicIntLog(name, 0, 10, BasicIntOperationMinus)
       )
       it(s"should be a list with 4 logs") {
-        val fixture = BasicIntFixture(name, 0)
+        val fixture = BasicIntFixture(name)
 
         fixture.plus(BasicIntValue(name, 10))
         fixture.multiply(BasicIntValue(name, 10))
