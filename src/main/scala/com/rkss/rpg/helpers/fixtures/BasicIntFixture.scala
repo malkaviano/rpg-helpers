@@ -15,8 +15,9 @@ final case class BasicIntFixture[A <: GlobalNameTag](
   val equalizeOnValueInferiorMinimum = options.equalizeOnValueInferiorMinimum
   val equalizeOnValueSuperiorMaximum = options.equalizeOnValueSuperiorMaximum
   val roundUp = options.roundUp
+  val id = options.id
 
-  private val logs = MutableQueue.empty[BasicIntLog[A]]
+  private val logs = MutableQueue.empty[BasicIntLog]
 
   def value: Int = _value
 
@@ -58,7 +59,7 @@ final case class BasicIntFixture[A <: GlobalNameTag](
     operate(other, BasicIntOperationDiv)
   }
 
-  def history: List[BasicIntLog[A]] = logs.toList
+  def history: List[BasicIntLog] = logs.toList
 
   private def operate(other: BasicIntValue[A], op: BasicIntOperation) = {
     val old = _value
@@ -88,6 +89,6 @@ final case class BasicIntFixture[A <: GlobalNameTag](
   }
 
   private def log(previous: Int, op: BasicIntOperation) = {
-    logs.enqueue(BasicIntLog(name, value, previous, op))
+    logs.enqueue(BasicIntLog(name, value, previous, op, id))
   }
 }
