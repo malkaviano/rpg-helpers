@@ -6,16 +6,41 @@ import com.rkss.rpg.helpers.traits._
 
 final case class BasicIntFixture[A <: GlobalNameTag](
     val name: A,
-    val initial: Int = 0,
-    val minimum: Int = Int.MinValue,
-    val maximum: Int = Int.MaxValue,
-    val roundUp: Boolean = false
+    val options: BasicIntOptions = BasicIntOptions()
 ) {
-  private var current = initial
+  private var _value = options.initial
+  private var _maximum = options.maximumValue
+  private var _minimum = options.minimumValue
+
+  val equalizeOnValueInferiorMinimum = options.equalizeOnValueInferiorMinimum
+  val equalizeOnValueSuperiorMaximum = options.equalizeOnValueSuperiorMaximum
+  val roundUp = options.roundUp
 
   private val logs = MutableQueue.empty[BasicIntLog[A]]
 
-  def value: Int = current
+  def value: Int = _value
+
+  def minimum: Int = _minimum
+
+  def minimum_=(v: Int): Unit = {
+    if (v <= maximum) {
+      _minimum = v
+
+      if (equalizeOnValueInferiorMinimum && value < _minimum)
+        _value = _minimum
+    }
+  }
+
+  def maximum: Int = _maximum
+
+  def maximum_=(v: Int): Unit = {
+    if (v >= minimum) {
+      _maximum = v
+
+      if (equalizeOnValueSuperiorMaximum && value > _maximum)
+        _value = _maximum
+    }
+  }
 
   def plus(other: BasicIntValue[A]): Unit = {
     operate(other, BasicIntOperationPlus)
@@ -36,19 +61,19 @@ final case class BasicIntFixture[A <: GlobalNameTag](
   def history: List[BasicIntLog[A]] = logs.toList
 
   private def operate(other: BasicIntValue[A], op: BasicIntOperation) = {
-    val old = current
+    val old = _value
 
     op match {
       case BasicIntOperationDiv =>
-        current /= other.value
+        _value /= other.value
 
-        if (roundUp && Math.abs(current % other.value) > 0) current += 1
+        if (roundUp && Math.abs(_value % other.value) > 0) _value += 1
       case BasicIntOperationMinus =>
-        current -= other.value
+        _value -= other.value
       case BasicIntOperationMultiply =>
-        current *= other.value
+        _value *= other.value
       case BasicIntOperationPlus =>
-        current += other.value
+        _value += other.value
     }
 
     enforceLimits()
@@ -57,12 +82,12 @@ final case class BasicIntFixture[A <: GlobalNameTag](
   }
 
   private def enforceLimits(): Unit = {
-    if (current > maximum) current = maximum
+    if (value > maximum) _value = maximum
 
-    if (current < minimum) current = minimum
+    if (value < minimum) _value = minimum
   }
 
   private def log(previous: Int, op: BasicIntOperation) = {
-    logs.enqueue(BasicIntLog(name, current, previous, op))
+    logs.enqueue(BasicIntLog(name, value, previous, op))
   }
 }
