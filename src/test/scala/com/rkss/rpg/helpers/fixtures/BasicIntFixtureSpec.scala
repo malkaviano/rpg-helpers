@@ -156,10 +156,28 @@ final class BasicIntFixtureSpec extends AnyFunSpec with Matchers {
 
     describe("history") {
       val expected = List(
-        BasicIntLog(name, 10, 0, BasicIntOperationPlus, "gg"),
-        BasicIntLog(name, 100, 10, BasicIntOperationMultiply, "gg"),
-        BasicIntLog(name, 10, 100, BasicIntOperationDiv, "gg"),
-        BasicIntLog(name, 0, 10, BasicIntOperationMinus, "gg")
+        BasicIntEvent(name, 10, 0, "gg", BasicIntTargetValue),
+        BasicIntEvent(
+          name,
+          100,
+          10,
+          "gg",
+          BasicIntTargetValue
+        ),
+        BasicIntEvent(
+          name,
+          10,
+          100,
+          "gg",
+          BasicIntTargetValue
+        ),
+        BasicIntEvent(
+          name,
+          0,
+          10,
+          "gg",
+          BasicIntTargetValue
+        )
       )
       it(s"should be a list with 4 logs") {
         val fixture = BasicIntFixture(name, BasicIntOptions(id = "gg"))

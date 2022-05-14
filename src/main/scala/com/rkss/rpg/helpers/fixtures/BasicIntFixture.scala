@@ -17,7 +17,7 @@ final case class BasicIntFixture[A <: GlobalNameTag](
   val roundUp = options.roundUp
   val id = options.id
 
-  private val logs = MutableQueue.empty[BasicIntLog]
+  private val logs = MutableQueue.empty[BasicIntEvent]
 
   def value: Int = _value
 
@@ -25,10 +25,15 @@ final case class BasicIntFixture[A <: GlobalNameTag](
 
   def minimum_=(v: Int): Unit = {
     if (v <= maximum) {
+      log(_minimum, v, BasicIntTargetMinimum)
+
       _minimum = v
 
-      if (equalizeOnValueInferiorMinimum && value < _minimum)
+      if (equalizeOnValueInferiorMinimum && value < _minimum) {
+        log(_value, _minimum, BasicIntTargetValue)
+
         _value = _minimum
+      }
     }
   }
 
@@ -36,10 +41,15 @@ final case class BasicIntFixture[A <: GlobalNameTag](
 
   def maximum_=(v: Int): Unit = {
     if (v >= minimum) {
+      log(_maximum, v, BasicIntTargetMaximum)
+
       _maximum = v
 
-      if (equalizeOnValueSuperiorMaximum && value > _maximum)
+      if (equalizeOnValueSuperiorMaximum && value > _maximum) {
+        log(_value, _maximum, BasicIntTargetValue)
+
         _value = _maximum
+      }
     }
   }
 
@@ -59,7 +69,7 @@ final case class BasicIntFixture[A <: GlobalNameTag](
     operate(other, BasicIntOperationDiv)
   }
 
-  def history: List[BasicIntLog] = logs.toList
+  def history: List[BasicIntEvent] = logs.toList
 
   private def operate(other: BasicIntValue[A], op: BasicIntOperation) = {
     val old = _value
@@ -79,7 +89,7 @@ final case class BasicIntFixture[A <: GlobalNameTag](
 
     enforceLimits()
 
-    log(old, op)
+    log(old, value, BasicIntTargetValue)
   }
 
   private def enforceLimits(): Unit = {
@@ -88,7 +98,11 @@ final case class BasicIntFixture[A <: GlobalNameTag](
     if (value < minimum) _value = minimum
   }
 
-  private def log(previous: Int, op: BasicIntOperation) = {
-    logs.enqueue(BasicIntLog(name, value, previous, op, id))
+  private def log(
+      previous: Int,
+      current: Int,
+      target: BasicIntTarget
+  ) = {
+    logs.enqueue(BasicIntEvent(name, current, previous, id, target))
   }
 }
