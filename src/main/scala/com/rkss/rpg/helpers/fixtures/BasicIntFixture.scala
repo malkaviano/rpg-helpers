@@ -1,6 +1,6 @@
 package com.rkss.rpg.helpers.fixtures
 
-import scala.collection.mutable.{Queue => MutableQueue}
+import scala.collection.mutable.{Queue => MutableQueue, Map => MutableMap}
 
 import com.rkss.rpg.helpers.traits._
 
@@ -17,7 +17,10 @@ final case class BasicIntFixture[A <: GlobalNameTag](
   val roundUp = options.roundUp
   val id = options.id
 
-  private val logs = MutableQueue.empty[BasicIntLog]
+  private val events = MutableQueue.empty[BasicIntChangeEvent]
+
+  private val changeListeners =
+    MutableMap.empty[String, (BasicIntChangeEvent) => Unit]
 
   def value: Int = _value
 
@@ -25,10 +28,15 @@ final case class BasicIntFixture[A <: GlobalNameTag](
 
   def minimum_=(v: Int): Unit = {
     if (v <= maximum) {
+      log(_minimum, v, BasicIntTargetMinimum)
+
       _minimum = v
 
-      if (equalizeOnValueInferiorMinimum && value < _minimum)
+      if (equalizeOnValueInferiorMinimum && value < _minimum) {
+        log(_value, _minimum, BasicIntTargetValue)
+
         _value = _minimum
+      }
     }
   }
 
@@ -36,10 +44,15 @@ final case class BasicIntFixture[A <: GlobalNameTag](
 
   def maximum_=(v: Int): Unit = {
     if (v >= minimum) {
+      log(_maximum, v, BasicIntTargetMaximum)
+
       _maximum = v
 
-      if (equalizeOnValueSuperiorMaximum && value > _maximum)
+      if (equalizeOnValueSuperiorMaximum && value > _maximum) {
+        log(_value, _maximum, BasicIntTargetValue)
+
         _value = _maximum
+      }
     }
   }
 
@@ -59,7 +72,19 @@ final case class BasicIntFixture[A <: GlobalNameTag](
     operate(other, BasicIntOperationDiv)
   }
 
-  def history: List[BasicIntLog] = logs.toList
+  def history: List[BasicIntChangeEvent] = events.toList
+
+  def addChangeListener(func: (BasicIntChangeEvent) => Unit): String = {
+    val id = java.util.UUID.randomUUID.toString
+
+    changeListeners.addOne((id, func))
+
+    id
+  }
+
+  def removeChangeListener(id: String): Unit = {
+    changeListeners.remove(id)
+  }
 
   private def operate(other: BasicIntValue[A], op: BasicIntOperation) = {
     val old = _value
@@ -79,7 +104,7 @@ final case class BasicIntFixture[A <: GlobalNameTag](
 
     enforceLimits()
 
-    log(old, op)
+    log(old, value, BasicIntTargetValue)
   }
 
   private def enforceLimits(): Unit = {
@@ -88,7 +113,15 @@ final case class BasicIntFixture[A <: GlobalNameTag](
     if (value < minimum) _value = minimum
   }
 
-  private def log(previous: Int, op: BasicIntOperation) = {
-    logs.enqueue(BasicIntLog(name, value, previous, op, id))
+  private def log(
+      previous: Int,
+      current: Int,
+      target: BasicIntTarget
+  ): Unit = {
+    val event = BasicIntChangeEvent(name, current, previous, id, target)
+
+    events.enqueue(event)
+
+    changeListeners.values.foreach(_.apply(event))
   }
 }

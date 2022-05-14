@@ -156,10 +156,28 @@ final class BasicIntFixtureSpec extends AnyFunSpec with Matchers {
 
     describe("history") {
       val expected = List(
-        BasicIntLog(name, 10, 0, BasicIntOperationPlus, "gg"),
-        BasicIntLog(name, 100, 10, BasicIntOperationMultiply, "gg"),
-        BasicIntLog(name, 10, 100, BasicIntOperationDiv, "gg"),
-        BasicIntLog(name, 0, 10, BasicIntOperationMinus, "gg")
+        BasicIntChangeEvent(name, 10, 0, "gg", BasicIntTargetValue),
+        BasicIntChangeEvent(
+          name,
+          100,
+          10,
+          "gg",
+          BasicIntTargetValue
+        ),
+        BasicIntChangeEvent(
+          name,
+          10,
+          100,
+          "gg",
+          BasicIntTargetValue
+        ),
+        BasicIntChangeEvent(
+          name,
+          0,
+          10,
+          "gg",
+          BasicIntTargetValue
+        )
       )
       it(s"should be a list with 4 logs") {
         val fixture = BasicIntFixture(name, BasicIntOptions(id = "gg"))
@@ -170,6 +188,38 @@ final class BasicIntFixtureSpec extends AnyFunSpec with Matchers {
         fixture.minus(BasicIntValue(name, 10))
 
         fixture.history shouldBe expected
+      }
+    }
+
+    describe("publishing change events") {
+      trait Listener {
+        var result: Int = _
+
+        def callMe(event: BasicIntChangeEvent): Unit = {
+          result += event.current
+        }
+      }
+
+      it("should publish the event to listeners") {
+        val fixture = BasicIntFixture(name, BasicIntOptions(id = "gg"))
+
+        val listener = new Listener {}
+
+        val listener2 = new Listener {}
+
+        val id = fixture.addChangeListener(listener.callMe)
+
+        fixture.addChangeListener(listener2.callMe)
+
+        fixture.plus(BasicIntValue(name, 100))
+
+        fixture.removeChangeListener(id)
+
+        fixture.minimum = 200
+
+        listener.result shouldBe 100
+
+        listener2.result shouldBe 300
       }
     }
   }
