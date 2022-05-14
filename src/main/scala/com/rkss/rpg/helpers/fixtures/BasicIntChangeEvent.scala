@@ -3,7 +3,7 @@ package com.rkss.rpg.helpers.fixtures
 import com.rkss.rpg.helpers.traits._
 import java.time._
 
-final case class BasicIntEvent(
+final case class BasicIntChangeEvent(
     val name: GlobalNameTag,
     val current: Int,
     val previous: Int,

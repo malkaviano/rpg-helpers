@@ -1,6 +1,6 @@
 package com.rkss.rpg.helpers.fixtures
 
-import scala.collection.mutable.{Queue => MutableQueue}
+import scala.collection.mutable.{Queue => MutableQueue, Map => MutableMap}
 
 import com.rkss.rpg.helpers.traits._
 
@@ -17,7 +17,10 @@ final case class BasicIntFixture[A <: GlobalNameTag](
   val roundUp = options.roundUp
   val id = options.id
 
-  private val logs = MutableQueue.empty[BasicIntEvent]
+  private val events = MutableQueue.empty[BasicIntChangeEvent]
+
+  private val changeListeners =
+    MutableMap.empty[String, (BasicIntChangeEvent) => Unit]
 
   def value: Int = _value
 
@@ -69,7 +72,19 @@ final case class BasicIntFixture[A <: GlobalNameTag](
     operate(other, BasicIntOperationDiv)
   }
 
-  def history: List[BasicIntEvent] = logs.toList
+  def history: List[BasicIntChangeEvent] = events.toList
+
+  def addChangeListener(func: (BasicIntChangeEvent) => Unit): String = {
+    val id = java.util.UUID.randomUUID.toString
+
+    changeListeners.addOne((id, func))
+
+    id
+  }
+
+  def removeChangeListener(id: String): Unit = {
+    changeListeners.remove(id)
+  }
 
   private def operate(other: BasicIntValue[A], op: BasicIntOperation) = {
     val old = _value
@@ -102,7 +117,11 @@ final case class BasicIntFixture[A <: GlobalNameTag](
       previous: Int,
       current: Int,
       target: BasicIntTarget
-  ) = {
-    logs.enqueue(BasicIntEvent(name, current, previous, id, target))
+  ): Unit = {
+    val event = BasicIntChangeEvent(name, current, previous, id, target)
+
+    events.enqueue(event)
+
+    changeListeners.values.foreach(_.apply(event))
   }
 }
