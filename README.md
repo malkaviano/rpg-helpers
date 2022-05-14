@@ -1,2 +1,2 @@
 # rpg-helpers
-Tools and utilities for RPG games
+Tools and utilities focused on removing boilerplate from RPG projects
