@@ -1,6 +1,6 @@
-package com.rkss.rpg.helpers.traits
+package com.rkss.rpg.helpers.dice
 
-trait DiceResult  extends Ordered[DiceResult] {
+trait DiceResult extends Ordered[DiceResult] {
   def value: Int
 
   override def compare(that: DiceResult): Int = {

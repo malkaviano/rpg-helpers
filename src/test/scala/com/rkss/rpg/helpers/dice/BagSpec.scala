@@ -5,8 +5,6 @@ import org.scalatest.matchers.should.Matchers
 
 import scala.collection.mutable.{Set => MutableSet}
 
-import com.rkss.rpg.helpers.traits._
-
 class BagSpec extends AnyFunSpec with Matchers {
   describe("fourSidedDice") {
     test(Bag.fourSidedDice, 4, 40)

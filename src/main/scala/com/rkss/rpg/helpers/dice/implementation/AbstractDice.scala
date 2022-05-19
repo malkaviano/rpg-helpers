@@ -1,6 +1,6 @@
 package com.rkss.rpg.helpers.dice.implementation
 
-import com.rkss.rpg.helpers.traits._
+import com.rkss.rpg.helpers.dice._
 
 abstract class AbstractDice private[dice] (
     protected val rng: DiceRange => DiceResult,

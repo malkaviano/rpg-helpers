@@ -4,7 +4,6 @@ import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalamock.scalatest.MockFactory
 
-import com.rkss.rpg.helpers.traits._
 import com.rkss.rpg.helpers.dice.implementation.SimpleDiceResult
 
 trait BehavesLikeDice extends AnyFunSpec with Matchers with MockFactory {
@@ -23,7 +22,7 @@ trait BehavesLikeDice extends AnyFunSpec with Matchers with MockFactory {
     }
 
     it(s"should have roll result between ${range}") {
-      import com.rkss.rpg.helpers.traits.DiceResult.implicits._
+      import com.rkss.rpg.helpers.dice.DiceResult.implicits._
 
       rng.expects(range).once().returning(SimpleDiceResult(expected))
 
