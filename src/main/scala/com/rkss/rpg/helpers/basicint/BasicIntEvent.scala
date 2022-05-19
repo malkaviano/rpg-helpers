@@ -1,9 +1,9 @@
-package com.rkss.rpg.helpers.fixtures
+package com.rkss.rpg.helpers.basicint
 
-import com.rkss.rpg.helpers.traits._
+import com.rkss.rpg.helpers._
 import java.time._
 
-final case class BasicIntChangeEvent(
+final case class BasicIntEvent(
     val name: GlobalNameTag,
     val current: Int,
     val previous: Int,
