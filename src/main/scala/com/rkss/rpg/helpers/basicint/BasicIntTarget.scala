@@ -1,4 +1,4 @@
-package com.rkss.rpg.helpers.fixtures
+package com.rkss.rpg.helpers.basicint
 
 sealed trait BasicIntTarget
 

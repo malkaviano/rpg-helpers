@@ -1,4 +1,4 @@
-package com.rkss.rpg.helpers.fixtures
+package com.rkss.rpg.helpers.basicint
 
 import com.rkss.rpg.helpers.traits._
 

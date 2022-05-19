@@ -1,4 +1,4 @@
-package com.rkss.rpg.helpers.fixtures
+package com.rkss.rpg.helpers.basicint
 
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers

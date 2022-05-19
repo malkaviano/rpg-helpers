@@ -1,4 +1,4 @@
-package com.rkss.rpg.helpers.fixtures
+package com.rkss.rpg.helpers.basicint
 
 final case class BasicIntOptions(
     val initial: Int = 0,
