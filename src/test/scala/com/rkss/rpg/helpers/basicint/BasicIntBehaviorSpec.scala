@@ -158,22 +158,22 @@ final class BasicIntBehaviorSpec extends AnyFunSpec with Matchers {
 
     describe("history") {
       val expected = List(
-        BasicIntChangeEvent(name, 10, 0, "gg", BasicIntTargetValue),
-        BasicIntChangeEvent(
+        BasicIntEvent(name, 10, 0, "gg", BasicIntTargetValue),
+        BasicIntEvent(
           name,
           100,
           10,
           "gg",
           BasicIntTargetValue
         ),
-        BasicIntChangeEvent(
+        BasicIntEvent(
           name,
           10,
           100,
           "gg",
           BasicIntTargetValue
         ),
-        BasicIntChangeEvent(
+        BasicIntEvent(
           name,
           0,
           10,
@@ -197,7 +197,7 @@ final class BasicIntBehaviorSpec extends AnyFunSpec with Matchers {
       trait Listener {
         var result: Int = _
 
-        def callMe(event: BasicIntChangeEvent): Unit = {
+        def callMe(event: BasicIntEvent): Unit = {
           result += event.current
         }
       }

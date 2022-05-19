@@ -4,7 +4,6 @@ import scala.util.Random
 
 import com.rkss.rpg.helpers.traits._
 import com.rkss.rpg.helpers.dice.implementation._
-import com.rkss.rpg.helpers.dice.imaginary._
 
 object Bag {
   implicit val fourSidedDice = FourSidedDice(rangeDice)
