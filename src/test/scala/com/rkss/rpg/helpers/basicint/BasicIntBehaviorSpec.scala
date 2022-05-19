@@ -3,7 +3,7 @@ package com.rkss.rpg.helpers.basicint
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 
-import com.rkss.rpg.helpers.traits._
+import com.rkss.rpg.helpers._
 
 final class BasicIntBehaviorSpec extends AnyFunSpec with Matchers {
   trait GG extends GlobalNameTag

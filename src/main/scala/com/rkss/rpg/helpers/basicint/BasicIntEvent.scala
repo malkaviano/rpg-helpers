@@ -1,6 +1,6 @@
 package com.rkss.rpg.helpers.basicint
 
-import com.rkss.rpg.helpers.traits._
+import com.rkss.rpg.helpers._
 import java.time._
 
 final case class BasicIntEvent(

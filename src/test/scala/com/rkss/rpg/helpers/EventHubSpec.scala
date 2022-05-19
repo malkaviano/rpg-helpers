@@ -3,9 +3,8 @@ package com.rkss.rpg.helpers
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 
-import com.rkss.rpg.helpers._
 import com.rkss.rpg.helpers.basicint._
-import com.rkss.rpg.helpers.traits._
+import com.rkss.rpg.helpers._
 
 class EventHubSpec extends AnyFunSpec with Matchers {
   trait GG extends GlobalNameTag
