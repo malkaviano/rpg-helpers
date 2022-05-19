@@ -1,8 +1,7 @@
 package com.rkss.rpg.helpers.basicint
 
-import scala.collection.mutable.{Queue => MutableQueue, Map => MutableMap}
-
 import com.rkss.rpg.helpers.traits._
+import com.rkss.rpg.helpers._
 
 final case class BasicIntBehavior[A <: GlobalNameTag](
     val name: A,
@@ -16,11 +15,6 @@ final case class BasicIntBehavior[A <: GlobalNameTag](
   val equalizeOnValueSuperiorMaximum = options.equalizeOnValueSuperiorMaximum
   val roundUp = options.roundUp
   val id = options.id
-
-  private val events = MutableQueue.empty[BasicIntEvent]
-
-  private val changeListeners =
-    MutableMap.empty[String, (BasicIntEvent) => Unit]
 
   def value: Int = _value
 
@@ -72,20 +66,6 @@ final case class BasicIntBehavior[A <: GlobalNameTag](
     operate(other, BasicIntOperationDiv)
   }
 
-  def history: List[BasicIntEvent] = events.toList
-
-  def addChangeListener(func: (BasicIntEvent) => Unit): String = {
-    val id = java.util.UUID.randomUUID.toString
-
-    changeListeners.addOne((id, func))
-
-    id
-  }
-
-  def removeChangeListener(id: String): Unit = {
-    changeListeners.remove(id)
-  }
-
   private def operate(other: BasicIntValue[A], op: BasicIntOperation) = {
     val old = _value
 
@@ -120,8 +100,6 @@ final case class BasicIntBehavior[A <: GlobalNameTag](
   ): Unit = {
     val event = BasicIntEvent(name, current, previous, id, target)
 
-    events.enqueue(event)
-
-    changeListeners.values.foreach(_.apply(event))
+    EventHub.shout(id, event)
   }
 }
