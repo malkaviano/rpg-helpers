@@ -8,9 +8,9 @@ case object EventHub {
   private val basicIntEventListeners =
     MutableMap.empty[(String, String), (BasicIntEvent) => Unit]
 
-  def shout(id: String, event: BasicIntEvent): Unit = {
+  def shout(event: BasicIntEvent): Unit = {
     basicIntEventListeners.foreach { case ((producerId, _), func) =>
-      if (id == producerId) func.apply(event)
+      if (event.id == producerId) func.apply(event)
     }
   }
 

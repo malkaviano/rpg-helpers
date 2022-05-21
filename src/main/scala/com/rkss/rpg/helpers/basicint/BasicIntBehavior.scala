@@ -99,6 +99,6 @@ final case class BasicIntBehavior[A <: GlobalNameTag](
   ): Unit = {
     val event = BasicIntEvent(name, current, previous, id, target)
 
-    EventHub.shout(id, event)
+    EventHub.shout(event)
   }
 }
