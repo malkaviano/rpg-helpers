@@ -1,7 +1,7 @@
 import Dependencies._
 
 ThisBuild / scalaVersion := "2.13.7"
-ThisBuild / version := "1.1.1"
+ThisBuild / version := "1.2.0"
 ThisBuild / organization := "com.rkss"
 ThisBuild / organizationName := "rkss"
 ThisBuild / versionScheme := Some("early-semver")
@@ -27,7 +27,8 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       scalaTest % Test,
       scalaTestPlus % Test,
-      scalaMock % Test
+      scalaMock % Test,
+      "org.scala-lang" % "scala-reflect" % scalaVersion.value
     )
   )
 
