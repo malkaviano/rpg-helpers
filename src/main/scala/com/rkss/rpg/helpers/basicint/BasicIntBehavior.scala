@@ -13,7 +13,6 @@ final case class BasicIntBehavior[A <: GlobalNameTag](
   val equalizeOnValueInferiorMinimum = options.equalizeOnValueInferiorMinimum
   val equalizeOnValueSuperiorMaximum = options.equalizeOnValueSuperiorMaximum
   val roundUp = options.roundUp
-  val id = options.id
 
   def value: Int = _value
 
@@ -21,12 +20,9 @@ final case class BasicIntBehavior[A <: GlobalNameTag](
 
   def minimum_=(v: Int): Unit = {
     if (v <= maximum) {
-      log(_minimum, v, BasicIntTargetMinimum)
-
       _minimum = v
 
       if (equalizeOnValueInferiorMinimum && value < _minimum) {
-        log(_value, _minimum, BasicIntTargetValue)
 
         _value = _minimum
       }
@@ -37,12 +33,9 @@ final case class BasicIntBehavior[A <: GlobalNameTag](
 
   def maximum_=(v: Int): Unit = {
     if (v >= minimum) {
-      log(_maximum, v, BasicIntTargetMaximum)
-
       _maximum = v
 
       if (equalizeOnValueSuperiorMaximum && value > _maximum) {
-        log(_value, _maximum, BasicIntTargetValue)
 
         _value = _maximum
       }
@@ -66,8 +59,6 @@ final case class BasicIntBehavior[A <: GlobalNameTag](
   }
 
   private def operate(other: BasicIntValue[A], op: BasicIntOperation) = {
-    val old = _value
-
     op match {
       case BasicIntOperationDiv =>
         _value /= other.value
@@ -82,23 +73,11 @@ final case class BasicIntBehavior[A <: GlobalNameTag](
     }
 
     enforceLimits()
-
-    log(old, value, BasicIntTargetValue)
   }
 
   private def enforceLimits(): Unit = {
     if (value > maximum) _value = maximum
 
     if (value < minimum) _value = minimum
-  }
-
-  private def log(
-      previous: Int,
-      current: Int,
-      target: BasicIntTarget
-  ): Unit = {
-    val event = BasicIntEvent(name, current, previous, id, target)
-
-    EventHub.shout(event)
   }
 }
