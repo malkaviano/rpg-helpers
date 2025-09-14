@@ -3,10 +3,6 @@ package com.rkss.rpg.helpers.basicint
 import com.rkss.rpg.helpers.GlobalNameTag
 
 trait BasicIntBehavior[A <: GlobalNameTag] {
-  val equalizeOnValueInferiorMinimum: Boolean
-  val equalizeOnValueSuperiorMaximum: Boolean
-  val roundUp: Boolean
-
   def value: Int
 
   def minimum: Int
@@ -36,5 +32,12 @@ object BasicIntBehavior {
       options: BasicIntOptions = BasicIntOptions()
   ): BasicIntBehavior[A] = {
     BasicIntBehaviorImpl(name, options)
+  }
+
+  def apply[A <: GlobalNameTag](
+      name: A,
+      options: BasicIntDynamicOptions
+  ): BasicIntBehavior[A] = {
+    BasicIntDynamicBehaviorImpl(name, options)
   }
 }

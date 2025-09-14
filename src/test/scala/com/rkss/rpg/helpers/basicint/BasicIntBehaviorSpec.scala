@@ -14,7 +14,19 @@ class BasicIntBehaviorSpec extends AnyFunSpec with Matchers {
 
       val basicInt = BasicIntBehavior(name)
 
-      basicInt shouldBe a [BasicIntBehaviorImpl[_]]
+      basicInt shouldBe a[BasicIntBehaviorImpl[_]]
+    }
+
+    it("should create a BasicIntDynamicBehaviorImpl") {
+      trait GG extends GlobalNameTag
+
+      val name = new GG {}
+
+      val dynamicOption = BasicIntDynamicOptions(() => 10)
+
+      val basicInt = BasicIntBehavior(name, dynamicOption)
+
+      basicInt shouldBe a[BasicIntDynamicBehaviorImpl[_]]
     }
   }
 }

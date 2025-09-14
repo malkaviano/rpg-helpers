@@ -2,11 +2,11 @@ package com.rkss.rpg.helpers.basicint
 
 import com.rkss.rpg.helpers._
 
-final case class BasicIntBehaviorImpl[A <: GlobalNameTag](
+final case class BasicIntDynamicBehaviorImpl[A <: GlobalNameTag](
     val name: A,
-    val options: BasicIntOptions = BasicIntOptions()
+    val options: BasicIntDynamicOptions
 ) extends BasicIntBehavior[A] {
-  private var _value = options.initial
+  private var _extra: Seq[(Int) => Int] = Seq.empty
 
   private var _maximum = options.maximumValue
 
@@ -14,24 +14,24 @@ final case class BasicIntBehaviorImpl[A <: GlobalNameTag](
 
   private var valueChangedDelegate: Option[(Int, Int) => Unit] = None
 
-  val equalizeOnValueInferiorMinimum = options.equalizeOnValueInferiorMinimum
-
-  val equalizeOnValueSuperiorMaximum = options.equalizeOnValueSuperiorMaximum
-
   val roundUp = options.roundUp
 
-  def value: Int = _value
+  def value: Int = {
+    println(_extra)
+
+    val proposed =
+      _extra.foldLeft(options.source())((acc, f) => f(acc))
+
+    if (proposed > maximum) maximum
+    else if (proposed < minimum) minimum
+    else proposed
+  }
 
   def minimum: Int = _minimum
 
   def minimum_=(v: Int): Unit = {
     if (v <= maximum) {
       _minimum = v
-
-      if (equalizeOnValueInferiorMinimum && value < _minimum) {
-
-        _value = _minimum
-      }
     }
   }
 
@@ -40,11 +40,6 @@ final case class BasicIntBehaviorImpl[A <: GlobalNameTag](
   def maximum_=(v: Int): Unit = {
     if (v >= minimum) {
       _maximum = v
-
-      if (equalizeOnValueSuperiorMaximum && value > _maximum) {
-
-        _value = _maximum
-      }
     }
   }
 
@@ -77,28 +72,32 @@ final case class BasicIntBehaviorImpl[A <: GlobalNameTag](
 
     op match {
       case BasicIntOperationDiv =>
-        _value /= other.value
+        val div = (x: Int) => {
+          var targetValue = x / other.value
 
-        if (roundUp && Math.abs(value % other.value) > 0) _value += 1
+          if (roundUp && (x % other.value) != 0) targetValue += 1
+
+          targetValue
+        }
+
+        _extra = _extra :+ div
       case BasicIntOperationMinus =>
-        _value -= other.value
-      case BasicIntOperationMultiply =>
-        _value *= other.value
-      case BasicIntOperationPlus =>
-        _value += other.value
-    }
+        val minus = (x: Int) => x - other.value
 
-    enforceLimits()
+        _extra = _extra :+ minus
+      case BasicIntOperationMultiply =>
+        val multiply = (x: Int) => x * other.value
+
+        _extra = _extra :+ multiply
+      case BasicIntOperationPlus =>
+        val plus = (x: Int) => x + other.value
+
+        _extra = _extra :+ plus
+    }
 
     valueChangedDelegate map { f =>
       if (old != value)
         f(old, value)
     }
-  }
-
-  private def enforceLimits(): Unit = {
-    if (value > maximum) _value = maximum
-
-    if (value < minimum) _value = minimum
   }
 }
