@@ -1,83 +1,40 @@
 package com.rkss.rpg.helpers.basicint
 
-import com.rkss.rpg.helpers._
+import com.rkss.rpg.helpers.GlobalNameTag
 
-final case class BasicIntBehavior[A <: GlobalNameTag](
-    val name: A,
-    val options: BasicIntOptions = BasicIntOptions()
-) {
-  private var _value = options.initial
-  private var _maximum = options.maximumValue
-  private var _minimum = options.minimumValue
+trait BasicIntBehavior[A <: GlobalNameTag] {
+  val equalizeOnValueInferiorMinimum: Boolean
+  val equalizeOnValueSuperiorMaximum: Boolean
+  val roundUp: Boolean
 
-  val equalizeOnValueInferiorMinimum = options.equalizeOnValueInferiorMinimum
-  val equalizeOnValueSuperiorMaximum = options.equalizeOnValueSuperiorMaximum
-  val roundUp = options.roundUp
+  def value: Int
 
-  def value: Int = _value
+  def minimum: Int
 
-  def minimum: Int = _minimum
+  def minimum_=(v: Int): Unit
 
-  def minimum_=(v: Int): Unit = {
-    if (v <= maximum) {
-      _minimum = v
+  def maximum: Int
 
-      if (equalizeOnValueInferiorMinimum && value < _minimum) {
+  def maximum_=(v: Int): Unit
 
-        _value = _minimum
-      }
-    }
-  }
+  def plus(other: BasicIntValue[A]): Unit
 
-  def maximum: Int = _maximum
+  def minus(other: BasicIntValue[A]): Unit
 
-  def maximum_=(v: Int): Unit = {
-    if (v >= minimum) {
-      _maximum = v
+  def multiply(other: BasicIntValue[A]): Unit
 
-      if (equalizeOnValueSuperiorMaximum && value > _maximum) {
+  def div(other: BasicIntValue[A]): Unit
 
-        _value = _maximum
-      }
-    }
-  }
+  def onValueChanged(f: (Int, Int) => Unit): Unit
 
-  def plus(other: BasicIntValue[A]): Unit = {
-    operate(other, BasicIntOperationPlus)
-  }
+  def clearOnValueChanged(): Unit
+}
 
-  def minus(other: BasicIntValue[A]): Unit = {
-    operate(other, BasicIntOperationMinus)
-  }
-
-  def multiply(other: BasicIntValue[A]): Unit = {
-    operate(other, BasicIntOperationMultiply)
-  }
-
-  def div(other: BasicIntValue[A]): Unit = {
-    operate(other, BasicIntOperationDiv)
-  }
-
-  private def operate(other: BasicIntValue[A], op: BasicIntOperation) = {
-    op match {
-      case BasicIntOperationDiv =>
-        _value /= other.value
-
-        if (roundUp && Math.abs(_value % other.value) > 0) _value += 1
-      case BasicIntOperationMinus =>
-        _value -= other.value
-      case BasicIntOperationMultiply =>
-        _value *= other.value
-      case BasicIntOperationPlus =>
-        _value += other.value
-    }
-
-    enforceLimits()
-  }
-
-  private def enforceLimits(): Unit = {
-    if (value > maximum) _value = maximum
-
-    if (value < minimum) _value = minimum
+object BasicIntBehavior {
+  def apply[A <: GlobalNameTag](
+      name: A,
+      options: BasicIntOptions = BasicIntOptions()
+  ): BasicIntBehavior[A] = {
+    BasicIntBehaviorImpl(name, options)
   }
 }
