@@ -1,7 +1,7 @@
 import Dependencies._
 
-ThisBuild / scalaVersion := "2.13.7"
-ThisBuild / version := "1.2.0"
+ThisBuild / scalaVersion := "2.13.16"
+ThisBuild / version := "1.3.0"
 ThisBuild / organization := "com.rkss"
 ThisBuild / organizationName := "rkss"
 ThisBuild / versionScheme := Some("early-semver")
